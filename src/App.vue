@@ -1,12 +1,13 @@
 <script setup lang="ts">
-
+import Header from './components/Header.vue'
+import Content from './components/Content.vue'
 import LeftPanel from './components/LeftPanel.vue'
 import RightPanel from './components/RightPanel.vue'
 </script>
 
 <template>
   <div class="app">
-    <el-header class="header">Header</el-header>
+    <el-header class="header"><Header/></el-header>
     <el-container>
       <el-aside class="aside left"><LeftPanel/></el-aside>
       <el-main class="main"><Content/></el-main>
@@ -39,6 +40,8 @@ import RightPanel from './components/RightPanel.vue'
 
   .main { 
     height: calc(100vh-60px);
+    background: #fafafa;
+    padding: 10px;
   }
 }
 </style>

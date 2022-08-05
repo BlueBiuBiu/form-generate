@@ -22,7 +22,15 @@ const config = [
     title: '单选框',
     size: 'default',
     dataId: nanoid()
-  }
+  },
+  {
+    type: 'fence',
+    name: '栅栏布局',
+    title: '栅栏布局',
+    size: 'default',
+    dataId: nanoid(),
+    tasks: []
+  },
 ]
 
 export default config

@@ -7,7 +7,7 @@
       class="container"
     >
       <template #item="{element}">
-        <el-button>{{ element.name }}</el-button>
+        <el-button @mousedown="mousedown(element)">{{ element.name }}</el-button>
       </template>
     </draggable>
   </div>
@@ -17,6 +17,12 @@
 import draggable from "vuedraggable";
 import { reactive, ref } from "vue";
 import config from "@/config/element.js"
+
+const mousedown = (element: any) => {
+  // if(element.type === "fence") {
+  //   config[3].tasks = []
+  // }
+}
 
 </script>
 

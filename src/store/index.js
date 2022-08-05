@@ -5,7 +5,8 @@ export const useStore = defineStore('customStore', {
     return {
       customConfig: [],
       currentConfig: {},
-      currentIndex: 0
+      currentIndex: 0,
+      currentFence: []
     }
   }
 })
