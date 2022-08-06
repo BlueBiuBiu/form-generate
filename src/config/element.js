@@ -10,10 +10,11 @@ const config = [
   },
   {
     type: 'input',
-    name: '输入框',
-    title: '输入框',
+    name: '单行文本',
+    title: '单行文本',
     size: 'default',
     modelValue: '',
+    width: 100,
     dataId: nanoid()
   },
   {
@@ -29,7 +30,15 @@ const config = [
     title: '栅栏布局',
     size: 'default',
     dataId: nanoid(),
-    tasks: []
+    fenceCount: 1,
+    tasks: {
+      child1: [],
+      child2: [],
+      child3: [],
+      child4: [],
+      child5: [],
+      child6: [],
+    }
   },
 ]
 

@@ -4,27 +4,38 @@
       :list="myArray"
       group="people"
       itemKey="id"
-      @add="dragDown('parent',$event)"
+      @add="dragDown"
       style="height: 100%"
     >
       <template #item="{element, index}">
-        <div :class="['el', {'active': currentIndex === index}]" v-if="element.type" @click="handleClick(element,index)">
+        <div :class="['el', {'active': currentIndex === index && showOperate}]" v-if="element.type" @click.capture="handleClick(element,index)">
           <element-comps :element="element" />
-          <draggable
-            v-if="element.type === 'fence' && element.tasks.length === 0"
-            :list="childArray"
-            group="people"
-            itemKey="cid"
-            @add="dragDown('child',$event,index)"
-            class="fence"
-          >
-            <template #item="{ element }">
-              <div>
-                <element-comps :element="element" />
-              </div>
-            </template>
-          </draggable>
-          <div :class="['operate', {'show-operate': currentIndex === index}]">
+          <template v-if="element.type === 'fence'">
+            <draggable
+              v-for="fence in element.fenceCount"
+              :list="element.tasks[`child${fence}`]"
+              group="people"
+              itemKey="tid"
+              :key="fence"
+              @add="dragDown"
+              @click="fenceClick(element, fence, index)"
+              :class="['fence', {'active': currentFenceIndex === fence && !showFenceItem && currentIndex === index}]"
+            >
+              <template #item="{ element: elementItem, index: indey }">
+                <div class="fence-item" @click.stop="elementClick(element, indey, fence, index)" :class="[{'active': currentFenceItemIndex === indey && currentFenceIndex === fence && currentIndex === index}]">
+                  <element-comps :element="elementItem"/>
+                  <div :class="['operate', {'show-operate': currentFenceIndex === fence && !showFenceItem && currentIndex === index}]">
+                    <el-icon class="icon" :size="16" color="#ffffff" @click="removeFence(element, fence)"><Delete /></el-icon>
+                  </div>
+                  <div :class="['operate', {'show-operate': currentFenceItemIndex === indey && showFenceItem && currentIndex === index}]">
+                    <el-icon class="icon" :size="16" color="#ffffff" @click="removeFenceItem(element, indey, fence)"><Delete /></el-icon>
+                  </div>
+                </div>
+              </template>
+            </draggable>
+          </template>
+          <div v-show="showOperate" :class="['operate', {'show-operate': currentIndex === index}]">
+            <el-icon v-if="element.type === 'fence'" class="icon" :size="16" color="#ffffff" @click="addFenceCount(element)"><Plus /></el-icon>
             <el-icon class="icon" :size="16" color="#ffffff" @click="removeAt(index)"><Delete /></el-icon>
           </div>
           <div class="data-id">{{element.dataId}}</div>
@@ -38,54 +49,86 @@
 import { reactive, ref, watchEffect } from "vue";
 import draggable from "vuedraggable";
 import nestedDraggable from "vuedraggable";
-import { Delete } from "@element-plus/icons-vue"
+import { Delete, Plus } from "@element-plus/icons-vue"
 import { useStore } from "@/store"
 import ElementComps from "./ElementComps.vue"
 
 let currentIndex = ref(0)
+let currentFenceIndex = ref(-1)
+let currentFenceItemIndex = ref(-1)
+let showOperate = ref(true)
+let showFenceItem = ref(false) // 点击栅栏中的子元素
 const store = useStore()
 let myArray: any = reactive([])
-let childArray: any = reactive([])
 
 // 当前点击的组件
 const handleClick = (element: any, index: number) => {  
-  console.log(store.customConfig);
-  currentIndex.value = index
   store.currentIndex = index
   store.currentConfig = store.customConfig[index]
+  // 操作样式的显示/重置
+  currentIndex.value = index
+  showOperate.value = true
+  showFenceItem.value = false
+  currentFenceIndex.value = -1
+  currentFenceItemIndex.value = -1
 }
 
-let currentFence = computed(() => store.currentFence)
-watch(currentFence, (newVal) => {
-  const tempArr = store.customConfig
-  tempArr[currentIndex.value].tasks = newVal
-  store.currentConfig = tempArr[currentIndex.value]
-  store.customConfig = tempArr
-}, {deep: true})
+// 选择某个位置的栅栏
+const fenceClick = (element: any, fence: number, index: number) => {
+  console.log(fence);
+  
+  // 操作样式的显示/重置
+  currentFenceIndex.value = fence
+  currentIndex.value = index
+  currentFenceItemIndex.value = -1
+  showOperate.value = false
+  showFenceItem.value = false
+}
+
+
+// 选择栅栏中具体选择的元素
+const elementClick = (element: any, indey: number, fence: number, index: number) => {
+  console.log(indey, index);
+  
+  // 操作样式的显示/重置
+  currentFenceIndex.value = fence
+  currentIndex.value = index
+  currentFenceItemIndex.value = indey
+  showOperate.value = false
+  showFenceItem.value = true
+}
+
+
+// 删除某个位置选择的栅栏
+const removeFence = (element: any, fence: number) => {
+  element.fenceCount--
+  for (let i = fence; i <= Object.keys(element.tasks).length; i++) {
+    element.tasks[`child${i}`] = element.tasks[`child${i + 1}`]
+  }
+  element.tasks['child6'] = []
+}
+
+// 删除某个位置选择的栅栏的具体选择的元素
+const removeFenceItem = (element: any, index: number, fence: number) => {
+  element.tasks[`child${fence}`].splice(index, 1)
+}
+
+// 增加栅栏数量
+const addFenceCount = (element: any) => {
+  if (element.fenceCount < Object.keys(element.tasks).length) {
+    element.fenceCount++
+  }
+}
 
 // 移出组件
 const removeAt = (index: number) => {
   myArray.splice(index, 1)
+  store.customConfig = myArray
 }
 
 // 拖拽放下触发
-const dragDown = (type: string, element: any, index?: number) => {
-  if(type === 'parent') {    
-    const tempArr = store.customConfig
-    const tempMyArray = [...myArray]
-    tempArr.splice(element.newIndex, 0, {...tempMyArray[element.newIndex]}) 
-    store.customConfig = tempArr
-    childArray.length = 0   
-  } else {
-    currentIndex.value = index as number
-    console.log('childArray', store.customConfig);
-    if(store.customConfig[index].tasks.length) {
-      store.currentFence = [...store.customConfig[index].tasks,...childArray]
-    } else {
-      store.currentFence = [...childArray]
-    }
-    store.currentConfig = {...myArray[index as number]}
-  }
+const dragDown = () => {
+  store.customConfig = myArray
 }
 </script>
 
@@ -93,6 +136,7 @@ const dragDown = (type: string, element: any, index?: number) => {
 .content {
   height: 100%;
   background: #fff;
+  color: #90959a;
   .el {
     display: flex;
     margin: 3px;
@@ -139,13 +183,21 @@ const dragDown = (type: string, element: any, index?: number) => {
     }
 
     .fence {
-      display: flex;
+      position: relative;
       width: 100%;
       margin: 5px;
+      padding: 5px;
       border: 1px solid #e5e5e5;
+
+      .fence-item {
+        border: 1px solid rgba(170, 170, 170, 0.5);
+        margin: 5px 0;
+        padding: 2px;
+      }
     }
   }
   .active {
+    position: relative;
     outline: 2px solid #409eff;
     border: 1px solid #409eff;
   }

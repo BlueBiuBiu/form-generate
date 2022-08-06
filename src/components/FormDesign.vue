@@ -3,8 +3,10 @@
     <div class="el" v-if="element.type">
       <element-comps :element="element"/>
       <el-row v-if="element.type === 'fence'" :data-id="element.dataId">
-        <el-col :span="24/element.tasks.length" v-for="(item, indey) in element.tasks" :key="indey">
-          <element-comps :element="item"/>
+        <el-col :span="24/element.fence" v-for="fence in element.fenceCount" :key="fence">
+          <template v-for="item in element.tasks[`child${fence}`]" :key="item">
+            <element-comps :element="item"/>
+          </template>
         </el-col>
       </el-row>
     </div>
@@ -21,6 +23,6 @@ const myArray: any = store.customConfig
 
 <style lang="less" scoped>
 .el {
-  margin: 10px 0;
+  // margin: 10px 0;
 }
 </style>

@@ -13,6 +13,10 @@
         <div class="label">标题</div>
         <el-input v-model="currentConfig.title" />
       </div>
+      <div class="desc">
+        <div class="label">标题宽度</div>
+        <el-input v-model="currentConfig.width" />
+      </div>
     </div>
   </div>
 </template>
@@ -25,6 +29,12 @@ const store = useStore()
 
 let currentConfig = computed(() => store.currentConfig)
 watch(currentConfig, (newVal) => {
+  if (!newVal) {
+    store.customConfig = []
+    store.currentConfig = {}
+    store.currentIndex = 0
+    return
+  }
   store.customConfig.splice(store.currentIndex, 1, newVal)
 }, {deep: true})
 
