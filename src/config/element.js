@@ -4,8 +4,9 @@ const config = [
   {
     type: 'button',
     name: '按钮',
-    title: '默认按钮',
+    title: '按钮',
     size: 'default',
+    width: 100,
     dataId: nanoid()
   },
   {
@@ -22,6 +23,7 @@ const config = [
     name: '单选框',
     title: '单选框',
     size: 'default',
+    width: 100,
     dataId: nanoid()
   },
   {

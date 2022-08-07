@@ -27,7 +27,7 @@
                   <div :class="['operate', {'show-operate': currentFenceIndex === fence && !showFenceItem && currentIndex === index}]">
                     <el-icon class="icon" :size="16" color="#ffffff" @click="removeFence(element, fence)"><Delete /></el-icon>
                   </div>
-                  <div :class="['operate', {'show-operate': currentFenceItemIndex === indey && showFenceItem && currentIndex === index}]">
+                  <div :class="['operate', {'show-operate': currentFenceIndex === fence && currentFenceItemIndex === indey && showFenceItem && currentIndex === index}]">
                     <el-icon class="icon" :size="16" color="#ffffff" @click="removeFenceItem(element, indey, fence)"><Delete /></el-icon>
                   </div>
                 </div>
@@ -71,12 +71,12 @@ const handleClick = (element: any, index: number) => {
   showFenceItem.value = false
   currentFenceIndex.value = -1
   currentFenceItemIndex.value = -1
+  // 显示栅栏或者其他
+  store.showFenceItem = false
 }
 
 // 选择某个位置的栅栏
 const fenceClick = (element: any, fence: number, index: number) => {
-  console.log(fence);
-  
   // 操作样式的显示/重置
   currentFenceIndex.value = fence
   currentIndex.value = index
@@ -88,7 +88,11 @@ const fenceClick = (element: any, fence: number, index: number) => {
 
 // 选择栅栏中具体选择的元素
 const elementClick = (element: any, indey: number, fence: number, index: number) => {
-  console.log(indey, index);
+  store.currentConfig = element
+  store.currentFenceIndex = fence
+  store.currentFenceItemIndex = indey
+  store.showFenceItem = true
+  currentIndex.value = index
   
   // 操作样式的显示/重置
   currentFenceIndex.value = fence

@@ -3,10 +3,10 @@
     <div class="el" v-if="element.type">
       <element-comps :element="element"/>
       <el-row v-if="element.type === 'fence'" :data-id="element.dataId">
-        <el-col :span="24/element.fence" v-for="fence in element.fenceCount" :key="fence">
-          <template v-for="item in element.tasks[`child${fence}`]" :key="item">
+        <el-col :span="24/element.fenceCount" v-for="fence in element.fenceCount" :key="fence">
+          <div v-for="item in element.tasks[`child${fence}`]" :key="item">
             <element-comps :element="item"/>
-          </template>
+          </div>
         </el-col>
       </el-row>
     </div>

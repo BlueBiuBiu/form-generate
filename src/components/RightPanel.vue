@@ -1,6 +1,6 @@
 <template>
   <div class="rightPanel">
-    <div v-if="store.customConfig.length && currentConfig.dataId">
+    <div v-if="!store.showFenceItem && store.customConfig.length && currentConfig.dataId">
       <div class="desc">
         <div class="label">类型</div>
         <el-button>{{currentConfig.name}}</el-button>
@@ -16,6 +16,24 @@
       <div class="desc">
         <div class="label">标题宽度</div>
         <el-input v-model="currentConfig.width" />
+      </div>
+    </div>
+    <div v-else-if="store.showFenceItem && store.customConfig.length && currentFenceItem.dataId">
+      <div class="desc">
+        <div class="label">类型</div>
+        <el-button>{{currentFenceItem.name}}</el-button>
+      </div>
+      <div class="desc">
+        <div class="label">字段标识</div>
+        <el-input v-model="currentFenceItem.dataId" />
+      </div>
+      <div class="desc">
+        <div class="label">标题</div>
+        <el-input v-model="currentFenceItem.title" />
+      </div>
+      <div class="desc">
+        <div class="label">标题宽度</div>
+        <el-input v-model="currentFenceItem.width" />
       </div>
     </div>
   </div>
@@ -36,7 +54,16 @@ watch(currentConfig, (newVal) => {
     return
   }
   store.customConfig.splice(store.currentIndex, 1, newVal)
+}, { deep: true })
+
+// 栅栏具体元素
+let currentFenceIndex = computed(() => store.currentFenceIndex)
+let currentFenceItemIndex = computed(() => store.currentFenceItemIndex)
+let currentFenceItem = computed(() =>store.currentConfig.tasks && store.currentConfig.tasks[`child${store.currentFenceIndex}`][store.currentFenceItemIndex])
+watch([currentFenceIndex, currentFenceItemIndex], (newVal) => {
+  store.customConfig[store.currentIndex].tasks[`child${newVal[0]}`].splice(newVal[1], 1, currentFenceItem.value)
 }, {deep: true})
+
 
 </script>
 
