@@ -14,6 +14,7 @@ declare module '@vue/runtime-core' {
     ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
     ElCol: typeof import('element-plus/es')['ElCol']
     ElContainer: typeof import('element-plus/es')['ElContainer']
+    ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
     ElDialog: typeof import('element-plus/es')['ElDialog']
     ElDropdown: typeof import('element-plus/es')['ElDropdown']
     ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
@@ -31,5 +32,6 @@ declare module '@vue/runtime-core' {
     Header: typeof import('./components/Header.vue')['default']
     LeftPanel: typeof import('./components/LeftPanel.vue')['default']
     RightPanel: typeof import('./components/RightPanel.vue')['default']
+    RightPanelChild: typeof import('./components/RightPanelChild.vue')['default']
   }
 }

@@ -71,6 +71,35 @@ const config = [
     dataId: nanoid()
   },
   {
+    type: 'date',
+    name: '日期选择器',
+    title: '日期选择器',
+    placeholder: '请选择日期',
+    modelValue: '',
+    size: 'default',
+    width: 100,
+    dataId: nanoid()
+  },
+  {
+    type: 'datetime',
+    name: '时间选择器',
+    title: '时间选择器',
+    placeholder: '请选择时间',
+    modelValue: '',
+    size: 'default',
+    width: 100,
+    dataId: nanoid()
+  },
+  {
+    type: 'customComponents',
+    name: '自定义组件',
+    title: '自定义组件',
+    modelValue: '',
+    slotName: '自定义插槽名',
+    width: 100,
+    dataId: nanoid()
+  },
+  {
     type: 'fence',
     name: '栅栏布局',
     title: '栅栏布局',

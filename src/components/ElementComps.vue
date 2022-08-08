@@ -40,13 +40,40 @@
   <div v-if="element.type === 'dropdown'" class="item item-flex" >  
     <span class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
     <el-dropdown ref="dropdown" v-model="element.modelValue" trigger="contextmenu">
-      <el-input @click="showClick" readonly :placeholder="element.placeholder" :suffix-icon="ArrowDown"/>
+      <el-input class="dropdown-input" @click="showClick" readonly :placeholder="element.placeholder" :suffix-icon="ArrowDown"/>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item v-for="item in element.child" :key="item">{{item.content}}</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
+  </div>
+  <!-- 日期选择器 -->
+  <div v-if="element.type === 'date'" class="item item-flex" >  
+    <span class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
+    <el-date-picker
+        v-model="element.modelValue"
+        type="date"
+        :placeholder="element.placeholder"
+        :size="element.size"
+      />
+  </div>
+  <!-- 时间日期选择器 -->
+  <div v-if="element.type === 'datetime'" class="item item-flex" >  
+    <span class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
+    <el-date-picker
+        v-model="element.modelValue"
+        type="datetime"
+        :placeholder="element.placeholder"
+        :size="element.size"
+      />
+  </div>
+  <!-- 自定义组件 -->
+  <div v-if="element.type === 'customComponents'" class="item item-flex" >  
+    <span class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
+    <slot :name="element.slotName">
+      <div>{{element.slotName}}</div>
+    </slot>
   </div>
 </template>
 
@@ -99,6 +126,12 @@ const showClick = () => {
   color: #606266;
   display: flex;
   align-items: center;
+}
+
+.dropdown-input {
+  /deep/ .el-input__inner {
+    cursor: pointer;
+  }
 }
 </style>
 <style lang="less">
