@@ -42,7 +42,7 @@
         </div>
       </template>
     </draggable>
-  </div>
+  </div> 
 </template>
 
 <script setup lang="ts">

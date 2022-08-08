@@ -7,22 +7,66 @@ const config = [
     title: '按钮',
     size: 'default',
     width: 100,
+    buttonWidth: 100,
     dataId: nanoid()
   },
   {
     type: 'input',
     name: '单行文本',
     title: '单行文本',
-    size: 'default',
+    placeholder: '请输入内容',
+    modelValue: '',
+    width: 100,
+    dataId: nanoid()
+  },
+  {
+    type: 'textarea',
+    name: '多行文本',
+    title: '多行文本',
+    placeholder: '请输入内容',
     modelValue: '',
     width: 100,
     dataId: nanoid()
   },
   {
     type: 'radio',
-    name: '单选框',
-    title: '单选框',
-    size: 'default',
+    name: '单选框组',
+    title: '单选框组',
+    modelValue: '',
+    child: [
+      {label: '1', size: 'default', content: 'option1'},
+      {label: '2', size: 'default', content: 'option2'},
+      {label: '3', size: 'default', content: 'option3'},
+    ],
+    layout: '垂直布局',
+    width: 100,
+    dataId: nanoid()
+  },
+  {
+    type: 'checkbox',
+    name: '多选框组',
+    title: '多选框组',
+    modelValue: [],
+    child: [
+      {label: '1', size: 'default', content: 'option1'},
+      {label: '2', size: 'default', content: 'option2'},
+      {label: '3', size: 'default', content: 'option3'},
+    ],
+    layout: '垂直布局',
+    width: 100,
+    dataId: nanoid()
+  },
+  {
+    type: 'dropdown',
+    name: '下拉选择框',
+    title: '下拉选择框',
+    placeholder: '请选择',
+    modelValue: [],
+    child: [
+      {content: 'Action 1'},
+      {content: 'Action 2'},
+      {content: 'Action 3'},
+    ],
     width: 100,
     dataId: nanoid()
   },
