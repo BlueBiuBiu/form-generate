@@ -31,6 +31,7 @@ declare module '@vue/runtime-core' {
     FormDesign: typeof import('./components/FormDesign.vue')['default']
     Header: typeof import('./components/Header.vue')['default']
     LeftPanel: typeof import('./components/LeftPanel.vue')['default']
+    Operate: typeof import('./components/operate/index.vue')['default']
     RightPanel: typeof import('./components/RightPanel.vue')['default']
     RightPanelChild: typeof import('./components/RightPanelChild.vue')['default']
   }

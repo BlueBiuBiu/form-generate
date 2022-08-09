@@ -3,6 +3,7 @@ import Header from './components/Header.vue'
 import Content from './components/Content.vue'
 import LeftPanel from './components/LeftPanel.vue'
 import RightPanel from './components/RightPanel.vue'
+import Operate from './components/operate/index.vue'
 </script>
 
 <template>
@@ -10,7 +11,10 @@ import RightPanel from './components/RightPanel.vue'
     <el-header class="header"><Header/></el-header>
     <el-container>
       <el-aside class="aside left"><LeftPanel/></el-aside>
-      <el-main class="main"><Content/></el-main>
+      <el-main class="main">
+        <Operate/>
+        <Content/>
+      </el-main>
       <el-aside class="aside right"><RightPanel/></el-aside>
     </el-container>
   </div>
@@ -41,7 +45,7 @@ import RightPanel from './components/RightPanel.vue'
   .main { 
     height: calc(100vh-60px);
     background: #fafafa;
-    padding: 10px;
+    padding: 0px;
   }
 }
 </style>
