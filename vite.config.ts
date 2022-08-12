@@ -13,6 +13,7 @@ export default defineConfig({
     alias: {
       '@': pathSrc,
     },
+    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json']
   },
   plugins: [
     Vue(),

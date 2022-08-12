@@ -53,12 +53,12 @@ import { Delete, Plus } from "@element-plus/icons-vue"
 import { useStore } from "@/store"
 import ElementComps from "./ElementComps.vue"
 
+const store = useStore()
 let currentIndex = ref(0)
 let currentFenceIndex = ref(-1)
 let currentFenceItemIndex = ref(-1)
 let showOperate = ref(true)
 let showFenceItem = ref(false) // 点击栅栏中的子元素
-const store = useStore()
 let myArray: any = reactive([])
 
 // 当前点击的组件
@@ -134,6 +134,18 @@ const removeAt = (index: number) => {
 const dragDown = () => {
   store.customConfig = myArray
 }
+
+// 清空操作
+watch(store, (newVal) => {
+  if(!newVal.customConfig.length) {
+    currentIndex = ref(0)
+    currentFenceIndex = ref(-1)
+    currentFenceItemIndex = ref(-1)
+    showOperate = ref(true)
+    showFenceItem = ref(false)
+    myArray.length = 0
+  }
+})
 </script>
 
 <style lang="less" scoped>

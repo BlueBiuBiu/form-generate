@@ -14,11 +14,21 @@
 </template>
 
 <script setup lang="ts">
-import ElementComps from "./ElementComps.vue"
+import ElementComps from "../ElementComps.vue"
 import { useStore } from "@/store"
 
 const store = useStore()
 const myArray: any = store.customConfig
+const form: any = reactive({})
+watch(store.customConfig, (newVal: any) => {
+  console.log('23', newVal);
+  newVal.forEach((item: any) => {
+    // const type = item.type as string
+    form[item.type] = item.modelValue
+  })
+  console.log(form);
+  
+})
 </script>
 
 <style lang="less" scoped>

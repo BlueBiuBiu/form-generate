@@ -2,18 +2,19 @@
   <!-- 按钮 -->
   <div v-if="element.type === 'button'" class="item item-flex" >  
     <span class="title mr-0" :style="{ 'width': `${element.width}px`}"></span>
-    <el-button :style="{ 'width': `${element.buttonWidth}px`}" :data-id="element.dataId">{{element.title}}</el-button>
+    <el-button :style="{ 'width': `${element.buttonWidth}px`}" v-model="element.modelValue" :data-id="element.dataId">{{element.title}}</el-button>
   </div>
   <!-- 单行文本 -->
   <div v-if="element.type === 'input'" class="item item-flex" >  
     <span class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
-    <el-input class="sky-item" :data-id="element.dataId" :placeholder="element.placeholder"/>
+    <el-input class="sky-item" v-model="element.modelValue" :data-id="element.dataId" :placeholder="element.placeholder"/>
   </div>
   <!-- 多行文本 -->
   <div v-if="element.type === 'textarea'" class="item item-flex" >  
     <span class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
     <el-input 
       class="sky-item" 
+      v-model="element.modelValue"
       :data-id="element.dataId" 
       type="textarea" 
       :placeholder="element.placeholder"/>
@@ -55,6 +56,7 @@
         v-model="element.modelValue"
         type="date"
         :placeholder="element.placeholder"
+        value-format="YYYY-MM-DD"
         :size="element.size"
       />
   </div>
@@ -65,6 +67,7 @@
         v-model="element.modelValue"
         type="datetime"
         :placeholder="element.placeholder"
+        value-format="YYYY-MM-DD hh:mm:ss"
         :size="element.size"
       />
   </div>
