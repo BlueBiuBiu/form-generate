@@ -103,6 +103,29 @@
         <el-radio-button label="水平布局" />
       </el-radio-group>
     </div>
+    <!-- 校验 -->
+    <div class="desc" v-if="currentConfig.type !== 'customComponents' && currentConfig.type !== 'fence'">
+      <div class="label">校验</div>
+      <div>
+        <el-checkbox v-model="currentConfig.rulesConfig.isRequireRule" 
+          @change="requireRuleChange($event, currentConfig.rulesConfig, currentConfig.rulesConfig.rules)" 
+          label="必填" size="large" />
+        <el-input class="rule-input" v-if="currentConfig.rulesConfig.isRequireRule" 
+          @input="requireRuleInput($event, currentConfig.rulesConfig, currentConfig.rulesConfig.rules)"
+          v-model="currentConfig.rulesConfig.messageTip" placeholder="自定义错误提示"/>
+      </div>
+      <div>
+        <el-checkbox v-model="currentConfig.rulesConfig.customRule" 
+          @change="customRuleChange($event, currentConfig.rulesConfig, currentConfig.rulesConfig.rules)" 
+          label="自定义规则" size="large" />
+        <div v-if="currentConfig.rulesConfig.customRule" >
+          <div class="custom-rule">(rules, value, callback) => {</div>
+          <el-input v-model="currentConfig.rulesConfig.customRuleContent" :rows="8" type="textarea"
+            @input="customRuleInput($event, currentConfig.rulesConfig, currentConfig.rulesConfig.rules)"/>
+          <div class="custom-rule">}</div>
+        </div>
+      </div>
+    </div>
     <!-- 自定义组件 -->
     <div class="desc" v-if="currentConfig.type === 'customComponents'">
       <div class="label">自定义插槽名</div>
@@ -146,6 +169,47 @@ const addCheckboxOption = (options: any) => {
   };
   options.child.push(newItem);
 };
+
+// 校验相关
+const requireRuleChange = (event: any, rulesConfig: any, rules: any[]) => { // 必填选项
+  if (event) {
+    rules.push({ required: true, message: rulesConfig.messageTip, trigger: rulesConfig.trigger })
+  } else {
+    const index = rules.findIndex(item => item.required)
+    rules.splice(index,1)
+  }
+}
+
+const requireRuleInput = (event: any, rulesConfig: any, rules: any[]) => { // 必填输入框
+  const index = rules.findIndex(item => item.required)
+  rules[index].message = event
+}
+
+const str2Func = (func: string) => { // 字符串转函数
+  return new Function('return '+ func);
+}
+
+const customRuleChange = (event: any, rulesConfig: any, rules: any[]) => { // 自定义规则选项
+  const tempFunc = `(rules, value, callback) => {
+    ${rulesConfig.customRuleContent}
+  }`
+  console.log(str2Func(tempFunc)());
+  
+  if (event) {
+    rules.push({ validator: str2Func(tempFunc)(), trigger: rulesConfig.trigger })
+  } else {
+    const index = rules.findIndex(item => item.validator)
+    rules.splice(index,1)
+  }
+}
+
+const customRuleInput = (event: any, rulesConfig: any, rules: any[]) => { // 自定义规则输入框
+  const index = rules.findIndex(item => item.required)
+  const tempFunc = `(rules, value, callback) => {
+    ${event}
+  }`
+  rules.splice(index,1,{ validator: str2Func(tempFunc)(), trigger: rulesConfig.trigger })
+}
 </script>
 
 <style lang="less" scoped>
@@ -167,7 +231,7 @@ const addCheckboxOption = (options: any) => {
       .radio-option {
         margin: 10px 0;
         .input {
-          width: 150px;
+          width: 220px;
         }
         .operate {
           margin-left: 12px;
@@ -185,12 +249,23 @@ const addCheckboxOption = (options: any) => {
       .checkbox-option {
         margin: 10px 0;
         .input {
-          width: 150px;
+          width: 220px;
         }
         .operate {
           margin-left: 12px;
         }
       }
+    }
+    // 校验
+    .rule-input {
+      margin-left: 22px;
+      width: 190px;
+      font-size: 12px;
+    }
+    .custom-rule {
+      font-size: 14px;
+      color: blue;
+      font-weight: 500;
     }
   }
 }

@@ -17,6 +17,14 @@ const config = [
     placeholder: '请输入内容',
     modelValue: '',
     width: 100,
+    rulesConfig: {
+      trigger: 'change',
+      isRequireRule: false,
+      messageTip: '',
+      customRule: false,
+      customRuleContent: '',
+      rules: []
+    },
     dataId: nanoid()
   },
   {
@@ -26,6 +34,14 @@ const config = [
     placeholder: '请输入内容',
     modelValue: '',
     width: 100,
+    rulesConfig: {
+      trigger: 'change',
+      isRequireRule: false,
+      messageTip: '',
+      customRule: false,
+      customRuleContent: '',
+      rules: []
+    },
     dataId: nanoid()
   },
   {
@@ -40,6 +56,14 @@ const config = [
     ],
     layout: '垂直布局',
     width: 100,
+    rulesConfig: {
+      trigger: 'change',
+      isRequireRule: false,
+      messageTip: '',
+      customRule: false,
+      customRuleContent: '',
+      rules: []
+    },
     dataId: nanoid()
   },
   {
@@ -47,6 +71,7 @@ const config = [
     name: '多选框组',
     title: '多选框组',
     modelValue: [],
+    trigger: 'change',
     child: [
       {label: '1', size: 'default', content: 'option1'},
       {label: '2', size: 'default', content: 'option2'},
@@ -54,20 +79,37 @@ const config = [
     ],
     layout: '垂直布局',
     width: 100,
+    rulesConfig: {
+      trigger: 'change',
+      isRequireRule: false,
+      messageTip: '',
+      customRule: false,
+      customRuleContent: '',
+      rules: []
+    },
     dataId: nanoid()
   },
   {
-    type: 'dropdown',
+    type: 'select',
     name: '下拉选择框',
     title: '下拉选择框',
     placeholder: '请选择',
-    modelValue: [],
+    modelValue: '',
+    trigger: 'change',
     child: [
-      {content: 'Action 1'},
-      {content: 'Action 2'},
-      {content: 'Action 3'},
+      {label: 'Option1',value: 'Option1'},
+      {label: 'Option2',value: 'Option2'},
+      {label: 'Option3',value: 'Option3'},
     ],
     width: 100,
+    rulesConfig: {
+      trigger: 'change',
+      isRequireRule: false,
+      messageTip: '',
+      customRule: false,
+      customRuleContent: '',
+      rules: []
+    },
     dataId: nanoid()
   },
   {
@@ -78,6 +120,15 @@ const config = [
     modelValue: '',
     size: 'default',
     width: 100,
+    trigger: 'change',
+    rulesConfig: {
+      trigger: 'change',
+      isRequireRule: false,
+      messageTip: '',
+      customRule: false,
+      customRuleContent: '',
+      rules: []
+    },
     dataId: nanoid()
   },
   {
@@ -88,6 +139,15 @@ const config = [
     modelValue: '',
     size: 'default',
     width: 100,
+    trigger: 'change',
+    rulesConfig: {
+      trigger: 'change',
+      isRequireRule: false,
+      messageTip: '',
+      customRule: false,
+      customRuleContent: '',
+      rules: []
+    },
     dataId: nanoid()
   },
   {

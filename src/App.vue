@@ -33,6 +33,7 @@ import Operate from './components/operate/index.vue'
       border-right: 1px solid #666;
     }
     &.right {
+      width: 300px;
       border-left: 1px solid #666;
     }
   }

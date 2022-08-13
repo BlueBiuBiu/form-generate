@@ -1,9 +1,9 @@
 <template>
   <div class="rightPanel">
-    <div v-if="!store.showFenceItem && store.customConfig.length && currentConfig.dataId">
+    <div v-if="!store.showFenceItem && store.customConfig.length && currentConfig.type">
       <right-panel-child :currentConfig="currentConfig"/>
     </div>
-    <div v-else-if="store.showFenceItem && store.customConfig.length && currentFenceItem.dataId">
+    <div v-else-if="store.showFenceItem && store.customConfig.length && currentFenceItem.type">
       <right-panel-child :currentConfig="currentFenceItem"/>
     </div>
   </div>

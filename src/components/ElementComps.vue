@@ -1,17 +1,17 @@
 <template>
   <!-- 按钮 -->
   <div v-if="element.type === 'button'" class="item item-flex" >  
-    <span class="title mr-0" :style="{ 'width': `${element.width}px`}"></span>
+    <span v-if="showLabel" class="title mr-0" :style="{ 'width': `${element.width}px`}"></span>
     <el-button :style="{ 'width': `${element.buttonWidth}px`}" v-model="element.modelValue" :data-id="element.dataId">{{element.title}}</el-button>
   </div>
   <!-- 单行文本 -->
   <div v-if="element.type === 'input'" class="item item-flex" >  
-    <span class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
+    <span v-if="showLabel" class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
     <el-input class="sky-item" v-model="element.modelValue" :data-id="element.dataId" :placeholder="element.placeholder"/>
   </div>
   <!-- 多行文本 -->
   <div v-if="element.type === 'textarea'" class="item item-flex" >  
-    <span class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
+    <span v-if="showLabel" class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
     <el-input 
       class="sky-item" 
       v-model="element.modelValue"
@@ -21,7 +21,7 @@
   </div>
   <!-- 单选框组 -->
   <div v-if="element.type === 'radio'" class="item item-flex" >  
-    <span class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
+    <span v-if="showLabel"  class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
      <el-radio-group v-model="element.modelValue" :class="element.layout === '垂直布局' ? 'radio-verticel': 'radio-horizontal'">
       <template v-for="item in element.child" :key="item.label">
         <el-radio :label="item.label" :size="item.size">{{item.content}}</el-radio>
@@ -30,7 +30,7 @@
   </div>
   <!-- 多选框组 -->
   <div v-if="element.type === 'checkbox'" class="item item-flex" >  
-    <span class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
+    <span v-if="showLabel"  class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
      <el-checkbox-group v-model="element.modelValue" :class="element.layout === '垂直布局' ? 'radio-verticel': 'radio-horizontal'">
       <template v-for="item in element.child" :key="item.label">
         <el-checkbox :label="item.label" :size="item.size">{{item.content}}</el-checkbox>
@@ -38,20 +38,20 @@
     </el-checkbox-group>
   </div>
   <!-- 下拉框组 -->
-  <div v-if="element.type === 'dropdown'" class="item item-flex" >  
-    <span class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
-    <el-dropdown ref="dropdown" v-model="element.modelValue" trigger="contextmenu">
-      <el-input class="dropdown-input" @click="showClick" readonly :placeholder="element.placeholder" :suffix-icon="ArrowDown"/>
-      <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item v-for="item in element.child" :key="item">{{item.content}}</el-dropdown-item>
-        </el-dropdown-menu>
-      </template>
-    </el-dropdown>
+  <div v-if="element.type === 'select'" class="item item-flex" >  
+    <span v-if="showLabel"  class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
+    <el-select v-model="element.modelValue" :placeholder="element.placeholder" size="large">
+      <el-option
+        v-for="item in element.child"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+      />
+    </el-select>
   </div>
   <!-- 日期选择器 -->
   <div v-if="element.type === 'date'" class="item item-flex" >  
-    <span class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
+    <span v-if="showLabel"  class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
     <el-date-picker
         v-model="element.modelValue"
         type="date"
@@ -62,7 +62,7 @@
   </div>
   <!-- 时间日期选择器 -->
   <div v-if="element.type === 'datetime'" class="item item-flex" >  
-    <span class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
+    <span v-if="showLabel"  class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
     <el-date-picker
         v-model="element.modelValue"
         type="datetime"
@@ -73,7 +73,7 @@
   </div>
   <!-- 自定义组件 -->
   <div v-if="element.type === 'customComponents'" class="item item-flex" >  
-    <span class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
+    <span v-if="showLabel" class="title" :style="{ 'width': `${element.width}px`}">{{element.title}}</span>
     <slot :name="element.slotName">
       <div>{{element.slotName}}</div>
     </slot>
@@ -82,11 +82,9 @@
 
 <script setup lang="ts">
 import { ArrowDown } from "@element-plus/icons-vue"
-defineProps<{element: any}>()
-const dropdown = ref()
-const showClick = () => {
-  dropdown.value.handleOpen()
-}
+withDefaults(defineProps<{ element: any, showLabel: boolean }>(), {
+  showLabel: true
+})
 </script>
 
 <style lang="less" scoped>
@@ -101,6 +99,7 @@ const showClick = () => {
     display: inline-block;
     text-align: right;
     margin-right: 12px;
+    margin-top: 5px;
   }
   .sky-item {
     flex: 1;
@@ -116,11 +115,11 @@ const showClick = () => {
   flex-direction: column;
   align-items: initial;
   position: relative;
-  top: -5px;
+  // top: -5px;
 }
 .radio-horizontal {
   position: relative;
-  top: -5px;
+  // top: -5px;
 }
 
 // 下拉选择框
