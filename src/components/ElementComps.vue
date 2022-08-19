@@ -131,7 +131,7 @@ withDefaults(defineProps<{ element: any, showLabel: boolean }>(), {
 }
 
 .dropdown-input {
-  /deep/ .el-input__inner {
+  :deep(.el-input__inner) {
     cursor: pointer;
   }
 }

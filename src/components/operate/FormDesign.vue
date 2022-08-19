@@ -17,7 +17,7 @@
       </div>
     </div>
   </el-form>
-  <el-button @click="getData(ruleFormRef)">获取数据</el-button>
+  <!-- <el-button @click="getData(ruleFormRef)">获取数据</el-button> -->
 </template>
 
 <script setup lang="ts">
@@ -74,11 +74,8 @@ const getData = (ruleFormRef: FormInstance | undefined) => {
   })
 }
 
-import { log } from "console";
 </script>
 
 <style lang="less" scoped>
-.el {
-  // margin: 10px 0;
-}
+
 </style>

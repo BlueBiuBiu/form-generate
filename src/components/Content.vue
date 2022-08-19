@@ -137,15 +137,26 @@ const dragDown = () => {
 
 // 清空操作
 watch(store, (newVal) => {
+  if(newVal.importJson.length) {    
+    console.log('141');
+    myArray.length = 0
+    myArray.push(...JSON.parse((newVal.importJson) as any))
+    store.customConfig = myArray
+    store.importJson = []
+    return
+  }
   if(!newVal.customConfig.length) {
-    currentIndex = ref(0)
-    currentFenceIndex = ref(-1)
-    currentFenceItemIndex = ref(-1)
-    showOperate = ref(true)
-    showFenceItem = ref(false)
+    console.log('150');
+    store.$reset()
+    currentIndex.value = 0
+    currentFenceIndex.value = -1
+    currentFenceItemIndex.value = -1
+    showOperate.value = true
+    showFenceItem.value = false
     myArray.length = 0
   }
 })
+
 </script>
 
 <style lang="less" scoped>

@@ -17,17 +17,23 @@
 <script setup lang="ts">
 import FormDesign from "./FormDesign.vue"
 import Json from "./Json.vue"
+import ImportJSON from "./ImportJSON.vue"
 import { View } from "@element-plus/icons-vue";
 import { useStore } from "@/store"
 import { useGetImageUrl } from "@/utils/public-use"
 
-let currentIndex = ref(0)
+let currentIndex = ref(-1)
 let currentTitle = ref('')
 let dialogVisible = ref(false)
-const components = ['', FormDesign, Json]
+const components = [ImportJSON, '', FormDesign, Json]
 const store = useStore()
 let currentConponents = computed(() => components[currentIndex.value])
 const operations = reactive([
+  {
+    title: '导入JSON',
+    href: useGetImageUrl('import.png'),
+    icon: ''
+  },
   {
     title: '清空',
     href: useGetImageUrl('clean.png'),
@@ -53,13 +59,16 @@ const operations = reactive([
 
 watch(currentIndex, (newVal) => {
   switch(newVal) {
-    case 1:
-      currentTitle.value = '预览'
+    case 0:
+      currentTitle.value = '导入JSON'
       return
     case 2:
-      currentTitle.value = '生成JSON'
+      currentTitle.value = '预览'
       return
     case 3:
+      currentTitle.value = '生成JSON'
+      return
+    case 4:
       currentTitle.value = '生成代码'
       return
   }
@@ -67,7 +76,7 @@ watch(currentIndex, (newVal) => {
 
 // 点击功能
 const itemClick = (index: number) => {
-  if(index === 0) {
+  if(index === 1) {
     store.$reset()
     return
   }

@@ -18,8 +18,9 @@ import RightPanelChild from "./RightPanelChild.vue";
 const store = useStore()
 
 let currentConfig = computed(() => store.currentConfig)
-watch(currentConfig, (newVal) => {
-  if (!newVal) {
+watch(currentConfig, (newVal: any) => {
+  
+  if (!newVal || !Object.keys(newVal).length) {
     store.customConfig = []
     store.currentConfig = {}
     store.currentIndex = 0
@@ -33,7 +34,9 @@ let currentFenceIndex = computed(() => store.currentFenceIndex)
 let currentFenceItemIndex = computed(() => store.currentFenceItemIndex)
 let currentFenceItem = computed(() =>store.currentConfig.tasks && store.currentConfig.tasks[`child${store.currentFenceIndex}`][store.currentFenceItemIndex])
 watch([currentFenceIndex, currentFenceItemIndex], (newVal) => {
-  store.customConfig[store.currentIndex].tasks[`child${newVal[0]}`].splice(newVal[1], 1, currentFenceItem.value)
+  console.log('-------',newVal);
+  if(!newVal) return
+  store.customConfig[store.currentIndex]?.tasks[`child${newVal[0]}`].splice(newVal[1], 1, currentFenceItem.value)
 }, {deep: true})
 </script>
 
