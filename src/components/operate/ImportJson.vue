@@ -1,4 +1,4 @@
- <template>
+<template>
   <div class="json-viewer">
     <el-input
       v-model="textarea"
@@ -11,15 +11,16 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from "@/store"
+import { useStore } from "@/store";
 
-const store = useStore()
-const textarea: any = ref('')
+const store = useStore();
+const textarea: any = ref("");
+const emits = defineEmits(["closeDialog"]);
 
 const submit = () => {
-  store.importJson = textarea.value
-}
-
+  store.importJson = textarea.value;
+  emits("closeDialog");
+};
 </script>
 
 <style lang="less" scoped>
@@ -30,4 +31,4 @@ const submit = () => {
     margin-top: 20px;
   }
 }
-</style> 
+</style>

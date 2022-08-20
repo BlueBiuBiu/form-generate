@@ -138,7 +138,6 @@ const dragDown = () => {
 // 清空操作
 watch(store, (newVal) => {
   if(newVal.importJson.length) {    
-    console.log('141');
     myArray.length = 0
     myArray.push(...JSON.parse((newVal.importJson) as any))
     store.customConfig = myArray
@@ -146,7 +145,6 @@ watch(store, (newVal) => {
     return
   }
   if(!newVal.customConfig.length) {
-    console.log('150');
     store.$reset()
     currentIndex.value = 0
     currentFenceIndex.value = -1

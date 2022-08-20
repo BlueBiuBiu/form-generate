@@ -10,7 +10,7 @@
     :title="currentTitle"
     width="70%"
   >
-    <component v-if="dialogVisible" :is="currentConponents"></component>
+    <component v-if="dialogVisible" :is="currentConponents" @closeDialog="closeDialog"></component>
   </el-dialog>
 </template>
 
@@ -83,6 +83,13 @@ const itemClick = (index: number) => {
   currentIndex.value = index
   dialogVisible.value = true 
   
+}
+
+// 子组件发送的事件
+const closeDialog = () => {  
+  console.log('-------');
+  
+  dialogVisible.value = false
 }
 </script>
 
